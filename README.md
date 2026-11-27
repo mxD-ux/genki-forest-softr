@@ -1,141 +1,175 @@
-# 元气森林智能售货机 · Softr 应用源码导出
+# CHI FOREST GO — Campus Smart Vending (Softr App)
 
-> 一个基于 **Softr + Vibe Coding** 的校园智能售货机应用：商品选购、库存搜索、活动优惠券、扫码支付、订单申诉与后台运营。
+> A campus smart vending machine web app built with **Softr + Vibe Coding**: product discovery, AI recommendations, coupon campaigns, QR / member-account payment, order pickup and appeals, and an admin console for users, orders and stock.
 
 ---
 
-## 这是什么
+## Live Demo
 
-本项目**不是**传统的前后端代码库，而是 **Softr no-code 应用的源码与配置导出**。
-
-Softr 应用运行在云端，页面、导航、权限由 Softr 平台托管；本仓库收录的是：
-
-- 所有 **Vibe Coding 自定义代码块**的完整源码（React + TypeScript + Tailwind）
-- 应用的**页面清单、导航结构、用户组与权限**
-- **数据表结构**（字段、类型、关联关系）
-- 关键业务逻辑说明
-
-| 项目 | 值 |
+| Item | Value |
 |---|---|
-| 应用名 | 元气森林智能售货机 |
-| Softr App ID | `d32688cc-5465-48ee-aee2-e377e3bfe728` |
-| Workspace | `BER` (`751e08c8-4375-4763-9438-84182e8aa382`) |
-| 线上地址 | https://larae79836.softr.app |
-| 管理员账号 | `2051182778@qq.com`（唯一，锁定） |
+| **Softr app (primary access)** | https://larae79836.softr.app/ |
+| **Test account** | `2051182778@qq.com` |
+| **Password** | `Ddz_331415@ddz` |
+
+> The test account is the application **administrator**, so it can open every screen — including the Admin Console (`/admin`).
+> To review the standard (non-administrator) experience, sign up with any email address; new accounts are regular users by default.
 
 ---
 
-## 技术栈
+## Repository Overview
 
-| 层 | 技术 |
-|---|---|
-| 应用平台 | Softr（No-code / AI-native） |
-| 自定义组件 | Vibe Coding Block（React + TypeScript + Tailwind CSS） |
-| 数据存储 | Softr Databases |
-| 图标 | `lucide-react` |
-| 二维码 | `qrcode.react` |
-| 通知 | `sonner` |
+This repository is the **source export** of the Softr application — not a standalone deployable codebase.
+Softr hosts the pages, navigation, permissions, authentication and database; this repository contains:
 
-> Softr 运行环境内置模块：`@/lib/datasource`、`@/lib/user`、`@/lib/editable-settings`、`@/components/ui/*`。
-> 这些由 Softr 平台提供，不在本仓库内，也不能脱离 Softr 独立运行。
-
----
-
-## 目录结构
+- The complete source of every **Vibe Coding block** (React + TypeScript + Tailwind)
+- Page, navigation and permission documentation
+- The database schema (tables, fields, relations)
+- This README with feature mapping, navigation and known limitations
 
 ```
 softr-genki-forest/
 ├── README.md
-├── .gitignore
 ├── blocks/
-│   ├── home/
-│   │   ├── shop-drinks.tsx          # 首页商品选购（含购物车、AI 推荐、优惠券）
-│   │   └── admin-entry.tsx          # 管理员专属入口（仅 2051182778@qq.com 可见）
-│   ├── checkout/
-│   │   └── checkout.tsx             # 收银台（支付方式、优惠券、扫码支付、订单写入）
-│   ├── orders/
-│   │   └── my-orders.tsx            # 我的订单（订单列表、确认取货、订单申诉）
-│   ├── admin/
-│   │   └── admin-console.tsx        # 运营后台（用户 / 订单 / 库存管理）
-│   ├── stock-search/
-│   │   └── stock-search.tsx         # 库存搜索
-│   ├── events/
-│   │   └── events.tsx               # 活动专区（优惠券领取）
-│   ├── product-stock/
-│   │   └── product-stock.tsx        # 商品库存详情
-│   ├── support/
-│   │   └── ai-support.tsx           # AI 客服
-│   └── shared/
-│       └── language-toggle.tsx      # 语言切换（中文 / EN）
+│   ├── README.md                      # block ↔ page mapping and platform dependencies
+│   ├── home/shop-drinks.tsx           # product discovery, cart, AI picks, brand landing
+│   ├── home/admin-entry.tsx           # admin-only entry bar (email whitelist)
+│   ├── checkout/checkout.tsx          # checkout, coupons, QR member payment, order writes
+│   ├── orders/my-orders.tsx           # order list, confirm pickup, order appeals
+│   ├── admin/admin-console.tsx        # users / orders / stock management
+│   ├── stock-search/stock-search.tsx  # stock search across cabinets
+│   ├── events/events.tsx              # campaigns and coupon claiming
+│   ├── product-stock/product-stock.tsx# per-product cabinet availability
+│   ├── support/ai-support.tsx         # FAQ-based support assistant
+│   └── shared/language-toggle.tsx     # global Chinese / English switch
 └── docs/
-    ├── pages.md                     # 页面清单与权限
-    ├── navigation.md                # 导航结构
-    └── database-schema.md           # 数据表结构
+    ├── pages.md                       # 14 business pages + system pages
+    ├── navigation.md                  # 2 navigations, items and visibility
+    ├── database-schema.md             # 9 tables, fields and relations
+    └── access-instructions.md         # copy-paste access text for submission
 ```
 
----
-
-## 页面清单（14 个业务页）
-
-| 路径 | 名称 | 说明 |
-|---|---|---|
-| `/` | 首页 | 商品选购（Shop drinks）、购物车、AI 推荐 |
-| `/products` | 商品 | 商品列表 |
-| `/cabinets` | 柜机 | 柜机列表 |
-| `/cabinet` | 柜机详情 | 单台柜机详情 |
-| `/stock` | 库存搜索 | 地图 + 库存列表 |
-| `/stock-pro` | 库存搜索 Pro | 高级库存搜索 |
-| `/product-stock` | 商品库存详情 | 单商品在各柜机的库存 |
-| `/events` | 活动专区 | 优惠券领取 |
-| `/activities` | 活动 | 活动列表 |
-| `/orders` | 我的订单 | 订单列表、确认取货、订单申诉 |
-| `/checkout` | 结算支付 | 收银台、支付方式、扫码支付 |
-| `/admin` | 管理后台 | 用户 / 订单 / 库存管理 |
-| `/support` | AI 客服 | 智能客服对话 |
-| `/account` | 账户设置 | Softr 内置账户页 |
-
-系统页：`/login`、`/sign-up`、`/forgot-password`、`/reset-password`、`/onboarding`、`/404`、`/401`、`/link-expired`、`/permission-denied`。
+> Softr runtime modules (`@/lib/datasource`, `@/lib/user`, `@/lib/editable-settings`, `@/components/ui/*`) are provided by the Softr platform and are intentionally **not** included here.
 
 ---
 
-## 核心业务逻辑
+## Tech Stack
 
-### 1. 用户与权限
-
-- **唯一管理员**：`2051182778@qq.com`，通过代码白名单（`ADMIN_EMAIL`）硬编码识别，锁定。
-- **普通用户**：注册即普通用户，不落入管理员白名单。
-- **导航权限**：
-  - 首页 / 库存搜索 / 活动专区 / 我的订单 → 所有登录用户可见
-  - 商品 / 附近柜机 / 管理后台 → 管理后台与管理员入口提供，普通用户不可见
-- **管理后台拦截**：非管理员访问 `/admin` 直接显示「无权限」，无密码旁路。
-
-### 2. 设备维度（双端 vs 平板）
-
-| 设备 | 能力 |
+| Layer | Technology |
 |---|---|
-| 双端（桌面 + 手机） | 支持管理员 / 普通用户登录，完整功能 |
-| 平板（机载） | 游客模式，仅显示「首页」导航；结算页提供「跳转至会员账户支付」二维码，扫码转手机支付 |
-
-### 3. 支付与订单
-
-- 结算页支持微信 / 支付宝（演示），登录后可写入订单表。
-- **支付加固**：
-  - 订单号 = `GF-YYYYMMDD-<时间戳后6位><随机4位>-NN`，防碰撞
-  - 金额 `Number.isFinite` 兜底 + 非负
-  - 单条订单写入失败自动重试 3 次（600ms / 1200ms 退避）
-- **异常订单**：若一次支付**一条订单都没写入成功**，自动生成一条 `状态=异常 / 申诉状态=申诉中` 的订单记录，便于用户在「我的订单」里申诉。
-- **订单申诉**：订单表新增 `申诉状态`（无 / 申诉中 / 已处理）与 `申诉说明`，用户可在订单卡片提交/修改申诉。
-
-### 4. 国际化
-
-- 全局语言键：`localStorage["genki-language-v1"]`（`zh` / `en`）
-- 切换事件：`window.dispatchEvent(new Event("genki-language-change"))`
-- 首页、结算页、我的订单、管理员入口等均跟随全局语言切换。
+| App platform | Softr (classic app, no-code / AI-native) |
+| Custom UI | Vibe Coding blocks — React, TypeScript, Tailwind CSS |
+| Data | Softr Databases (9 tables) |
+| Icons | `lucide-react` |
+| QR code | `qrcode.react` |
+| Notifications | `sonner` |
+| Auth | Softr email + password |
 
 ---
 
-## 说明
+## Core Features
 
-1. 本项目是 **Softr 应用源码导出**，不能 `npm install && npm run dev` 独立运行；代码块需在 Softr Studio 的 Vibe Coding 块中运行。
-2. 导出的代码是**业务逻辑源码**，不包含 Softr 平台自身的运行时。
-3. 数据表结构见 `docs/database-schema.md`，实际数据不在本仓库。
+### 1. Product discovery, AI picks and cart checkout
+
+- Product grid with categories, search, stock hints and quantity controls.
+- Cart persisted in `localStorage`; checkout summary with coupon support.
+- “AI picks for you”: per-user recommendation cards generated from purchase history and the current time.
+- Checkout supports demo WeChat / Alipay, coupon redemption, order creation and a success screen.
+
+**Where:** `/` (Home) → `/checkout` (Checkout)
+
+### 2. Real-time stock search across cabinets
+
+- Search by product name or cabinet code, filter by category, sorted by distance.
+- Per-product cabinet availability page showing slot-level stock.
+- Cabinet list with location, area, distance and opening hours.
+
+**Where:** `/stock-pro` (Stock Search) → `/product-stock` (Product Stock) → `/cabinets` (Cabinets)
+
+### 3. Order lifecycle, appeals and admin operations
+
+- “My Orders” lists only the signed-in user’s orders, newest first.
+- Pending orders can be confirmed as picked up.
+- Every order supports an **appeal** (status + note), including automatically created exception orders when a payment fails before any order is written.
+- Admin Console manages users, order statuses and stock records; access is restricted to the administrator email.
+
+**Where:** `/orders` (My Orders) → `/admin` (Admin Console)
+
+### Feature → screen mapping (quick reference)
+
+| # | Core feature | Primary screens | Key actions |
+|---|---|---|---|
+| 1 | Product discovery & checkout | `/`, `/checkout`, `/events` | Browse, search, add to cart, claim coupon, pay (demo), create order |
+| 2 | Stock search | `/stock-pro`, `/product-stock`, `/cabinets` | Search product/cabinet, filter, view slot stock |
+| 3 | Orders, appeals & admin | `/orders`, `/admin` | Confirm pickup, submit/edit appeal, manage users/orders/stock |
+
+---
+
+## App Navigation / Screens
+
+The main navigation (top bar on desktop, bottom bar on mobile) exposes four items to signed-in users: Home, Stock Search, Events, My Orders. Additional screens are reachable from cards, links and the admin entry bar.
+
+| # | Screen | Path | Purpose |
+|---|---|---|---|
+| 1 | Home | `/` | Product grid, cart, AI picks; public brand landing when signed out |
+| 2 | Products | `/products` | Full product list |
+| 3 | Cabinets | `/cabinets` | Cabinet list with area / distance / hours |
+| 4 | Cabinet detail | `/cabinet` | Single cabinet detail |
+| 5 | Stock Search | `/stock-pro` | Search stock by product or cabinet, nearest first |
+| 6 | Stock Search (map) | `/stock` | Map + list view of stock |
+| 7 | Product Stock | `/product-stock` | Slot-level availability for one product |
+| 8 | Events | `/events` | Campaigns and coupon claiming |
+| 9 | My Orders | `/orders` | User orders, pickup confirmation, appeals |
+| 10 | Checkout | `/checkout` | Cart summary, coupons, demo payment, QR member payment |
+| 11 | Admin Console | `/admin` | Users / orders / stock management (administrator only) |
+| 12 | AI Support | `/support` | FAQ-based support assistant |
+| 13 | Account | `/account` | Softr account settings |
+
+**Suggested walkthrough for assessors (5+ screens):**
+`/` → add items to cart → `/checkout` → pay (demo) → `/orders` → confirm pickup → open appeal → `/admin` (administrator) → `/stock-pro` → `/events`.
+
+---
+
+## How to Use for Assessors
+
+1. Open **https://larae79836.softr.app/** in a normal or incognito window.
+2. Sign in with the test account above (email + password).
+3. **Browse & shop:** on Home, use search/category filters, add 2–3 items to the cart, open the cart bar and proceed to checkout.
+4. **Checkout:** optionally select a claimed coupon, choose WeChat/Alipay (demo), press “Demo pay”. A success screen shows the pickup code and order count.
+5. **Orders & appeal:** open “My Orders”, find the new order, press “Confirm pickup”, then use “Order appeal” to submit or edit an appeal note.
+6. **Stock:** open “Stock Search”, search for a product (e.g. “白桃”) or a cabinet code; open a product to see slot-level stock.
+7. **Events:** open “Events”, claim an available coupon, then return to checkout and apply it.
+8. **Admin:** the test account sees a green “Admin” bar on Home / Stock Search / Events / My Orders; open “Admin Console” to review users, orders and stock.
+9. **Language:** use the 中文 / EN switch (top-right) to toggle the whole app between Chinese and English.
+10. **Tablet behaviour (optional):** open the app on a tablet-sized viewport. The navigation shows only “Home”, and the checkout page presents a **“Pay via member account” QR code** instead of the signed-in payment form.
+
+---
+
+## Known Limitations
+
+- **Low-code platform constraints.** This is a Softr classic app; the repository is a source export, not a runnable standalone project. Pages, auth and data access are enforced by Softr.
+- **No custom user groups on the current plan.** Softr’s Free plan does not include custom user groups, so the administrator is identified by a hard-coded email whitelist (`ADMIN_EMAIL`) instead of a role group. New sign-ups are always regular users.
+- **Tablet login button cannot be hidden.** Softr navigation item device visibility makes tablets follow the desktop setting, so the Login / Sign up buttons remain visible on tablet even though the tablet flow is guest-only.
+- **Payments are simulated.** No real merchant account or server callback is connected; “Demo pay” writes orders only and never charges money.
+- **Member payment QR is configurable.** Until a real member-app payment URL is configured, the QR code points to the checkout page itself; the page displays a notice in that state.
+- **AI recommendations depend on an external worker.** The app writes anonymised purchase summaries to the `AI推荐请求` table; a separate backend calls DeepSeek and writes results back. If that worker is not running, requests remain “pending”. Softr-side AI was not used because the current plan does not include the required workflow/AI capacity.
+- **AI Support is FAQ-based.** `/support` performs keyword matching over 40 FAQ records; it is not an LLM chat.
+- **Demo data only.** All products, cabinets, orders and users are test data; no real customer data is included in this repository.
+
+---
+
+## Security Notes
+
+- This repository contains **no API keys, tokens or credentials**.
+- The test account above is provided solely for assessment. Please do not redistribute it.
+- If the repository is made public, the test password should be rotated after Demo Day.
+
+---
+
+## Team / Contact
+
+| Role | Name | Contact |
+|---|---|---|
+| Team / Author | _TBD_ | _TBD_ |
+
+> Replace this table with the final team names and contact details before submission.
